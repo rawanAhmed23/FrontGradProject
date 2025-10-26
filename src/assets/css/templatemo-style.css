@@ -98,7 +98,7 @@ COLOR CODES
     top: 0;
     width: 51%;
     height: 100%;
-    background: #222222;
+    background: #143d3f;
     z-index: 1000;
     -webkit-transform: translateX(0);  /* Chrome, Opera 15+, Safari 3.1+ */
     -ms-transform: translateX(0);  /* IE 9 */
@@ -158,7 +158,7 @@ ul {
 .container { max-width: 960px; }
 .tm-handwriting-font { font-family: 'Damion', cursive; }
 .tm-top-header {
-  background: black;
+  background: #2c4a45;
   color: white;
 }
 .tm-site-logo,
@@ -166,7 +166,7 @@ ul {
   vertical-align: bottom;
 }
 .tm-site-name {
-  color: #c79c60;
+  color: #c49b60;
   display: inline-block;
   font-size: 32px;
   margin: 0 10px;  
@@ -224,7 +224,7 @@ ul {
 
 /* Welcome */
 .tm-welcome-section {
-  background: #282726;
+  background: #476355;
   text-align: center;
 }
 .white-text { color: white; }
@@ -306,7 +306,7 @@ ul {
 
 /* Footer */
 .tm-black-bg {
-  background-color: #302f2f;
+  background-color: #2c4a45;
   color: white;
   padding-top: 50px;
 }
@@ -335,7 +335,7 @@ ul {
   margin-bottom: 30px;
 }
 .tm-social-icon {
-  background-color: #505050;
+  background-color: #476355;
   color: white;
   display: inline-block;
   font-size: 20px;
@@ -351,7 +351,7 @@ ul {
 .tm-social-icon:last-child { margin-right: 0; }
 .tm-social-icon:hover,
 .tm-social-icon:focus {
-  background-color: #BB8232;
+  background-color: #785c35;
   color: white;
 }
 .tm-social-icons-container { margin-top: 25px; }
