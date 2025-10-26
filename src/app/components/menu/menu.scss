@@ -1,0 +1,17 @@
+.tm-position-relative {
+  position: relative;
+}
+
+.tm-side-menu-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.tm-side-menu {
+  position: relative;
+  z-index: 1;
+}
