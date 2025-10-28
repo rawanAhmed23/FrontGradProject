@@ -26,7 +26,7 @@
 </section>
 <div class="tm-main-section light-gray-bg">
   <div class="container" id="main">
-    <section class="tm-section row">
+    <!-- <section class="tm-section row">
       <div class="col-lg-9 col-md-9 col-sm-8">
         <h2 class="tm-section-header gold-text tm-handwriting-font">Variety of Menus</h2>
         <h2>Cafe House</h2>
@@ -44,7 +44,7 @@
           <img src="assets/img/1.jpg" alt="Image" class="img-circle img-thumbnail" />
         </div>
       </div>
-    </section>
+    </section> -->
     <section class="tm-section row">
       <div class="col-lg-12 tm-section-header-container margin-bottom-30">
         <h2 class="tm-section-header gold-text tm-handwriting-font">
@@ -52,27 +52,7 @@
         </h2>
         <div class="tm-hr-container"><hr class="tm-hr" /></div>
       </div>
-      <div>
-        <!-- <div class="col-lg-3 col-md-3">
-          <div class="tm-position-relative margin-bottom-30">
-            <nav class="tm-side-menu">
-              <ul>
-                <li><a href="#" class="active">Affogato</a></li>
-                <li><a href="#">Caffè Americano</a></li>
-                <li><a href="#">Caffè latte</a></li>
-                <li><a href="#">Coffee milk</a></li>
-                <li><a href="#">Café mocha</a></li>
-                <li><a href="#">Cappuccino</a></li>
-                <li><a href="#">Espresso</a></li>
-                <li><a href="#">Iced coffee</a></li>
-                <li><a href="#">Instant coffee</a></li>
-                <li><a href="#">Mocha</a></li>
-                <li><a href="#">black coffee</a></li>
-              </ul>
-            </nav>
-            <img src="assets/img/vertical-menu-bg.png" alt="Menu bg" class="tm-side-menu-bg" />
-          </div>
-        </div> -->
+      <div class="row">
         <div class="col-lg-3 col-md-3">
           <div class="tm-position-relative margin-bottom-30">
             <nav class="tm-side-menu">
@@ -91,31 +71,68 @@
             <img src="assets/img/vertical-menu-bg.png" alt="Menu bg" class="tm-side-menu-bg" />
           </div>
         </div>
-        <div class="tm-menu-product-content col-lg-9 col-md-9">
-          <div *ngIf="loading" class="text-center">
-            <p>جاري تحميل القائمة...</p>
+        <div class="tm-menu-product-content col-lg-9 col-md-9 cafe-table-container">
+          <div *ngIf="loading" class="text-center py-5">
+            <p>☕ جاري تحميل القائمة...</p>
           </div>
 
-          <div *ngIf="error" class="text-danger text-center">
+          <div *ngIf="error" class="text-danger text-center py-5">
             <p>{{ error }}</p>
           </div>
 
-          <div *ngIf="!loading && !error">
-            <div class="tm-product" *ngFor="let item of menuItems">
-              <!-- <img [src]="item.imageUrl" alt="{{ item.name }}" /> -->
-              <div class="tm-product-text">
-                <h3 class="tm-product-title">{{ item.name }}</h3>
-                <p class="tm-product-description">{{ item.description }}</p>
-              </div>
-              <div class="tm-product-price">
-                <a href="#" class="tm-product-price-link tm-handwriting-font">
-                  <span class="tm-product-price-currency">$</span>{{ item.price }}
-                </a>
-              </div>
-            </div>
-          </div>
+          <table class="table table-hover cafe-table" *ngIf="!loading && !error">
+            <thead>
+              <tr>
+                <th scope="col">الاسم</th>
+                <th scope="col">الوصف</th>
+                <th scope="col">السعر</th>
+                <th scope="col">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of menuItems; let i = index" [@fadeInStagger]="menuItems.length">
+                <td class="item-name">{{ item.name }}</td>
+                <td class="item-desc">
+                  {{
+                    item.description
+                      ? (item.description | slice : 0 : 80) + '...'
+                      : 'بدون وصف متاح.'
+                  }}
+                </td>
+                <td class="item-price">
+                  {{ item.price | currency : 'USD' }}
+                </td>
+                <td>
+                  <button class="btn btn-view" (click)="viewDetails(item)">عرض التفاصيل</button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
+  </div>
+</div>
+
+
+
+<!-- ✅ Modal -->
+<div class="modal-backdrop" *ngIf="selectedItem" [@fadeIn]>
+  <div class="modal-box">
+    <h3 class="modal-title">{{ selectedItem.name }}</h3>
+    <p class="modal-desc">{{ selectedItem.description || 'لا يوجد وصف متاح.' }}</p>
+
+    <div *ngIf="sizesLoading" class="text-center">☕ جاري تحميل الأحجام...</div>
+    <div *ngIf="sizesError" class="text-danger text-center">{{ sizesError }}</div>
+
+    <ul *ngIf="!sizesLoading && sizes.length > 0" class="sizes-list">
+      <li *ngFor="let size of sizes">
+        <span>{{ size.code }}</span>
+        <span class="price">{{ size.price | currency:'EGP' }}</span>
+      </li>
+    </ul>
+
+    <button class="close-btn" (click)="closeModal()">إغلاق</button>
   </div>
 </div>
