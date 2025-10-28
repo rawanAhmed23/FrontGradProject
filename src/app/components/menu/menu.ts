@@ -1,13 +1,50 @@
+// 📁 src/app/components/menu/menu.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemService } from '../../shared/item-service';
 import { Item } from '../../models/item';
+import {
+  trigger,
+  style,
+  transition,
+  animate,
+  query,
+  stagger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-menu',
   imports: [CommonModule],
   templateUrl: './menu.html',
   styleUrl: './menu.scss',
+  animations: [
+    trigger('fadeInStagger', [
+      transition('* => *', [
+        query(
+          ':enter',
+          [
+            style({ opacity: 0, transform: 'translateY(15px)' }),
+            stagger('120ms', [
+              animate(
+                '600ms ease-out',
+                style({ opacity: 1, transform: 'translateY(0)' })
+              ),
+            ]),
+          ],
+          { optional: true }
+        ),
+      ]),
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms ease-in', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('200ms ease-out', style({ opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class Menu implements OnInit {
   allItems: Item[] = [];
@@ -16,6 +53,12 @@ export class Menu implements OnInit {
   selectedCategory = '';
   loading = true;
   error = '';
+
+  // ✅ بيانات الـ Modal
+  selectedItem: Item | null = null;
+  sizes: any[] = [];
+  sizesLoading = false;
+  sizesError = '';
 
   constructor(private itemService: ItemService) {}
 
@@ -46,13 +89,37 @@ export class Menu implements OnInit {
 
   filterItems(category: string) {
     this.selectedCategory = category;
-    if (category === 'All') {
-      this.menuItems = this.allItems;
-    } else {
-      this.menuItems = this.allItems.filter(
-        (item) => item.category.toLowerCase() === category.toLowerCase()
-      );
-    }
+    this.menuItems =
+      category === 'All'
+        ? this.allItems
+        : this.allItems.filter(
+            (item) => item.category.toLowerCase() === category.toLowerCase()
+          );
   }
 
+  // ✅ عرض تفاصيل المنتج وفتح المودال
+  viewDetails(item: Item) {
+    this.selectedItem = item;
+    this.sizes = [];
+    this.sizesError = '';
+    this.sizesLoading = true;
+
+    this.itemService.getItemSizes(item.id).subscribe({
+      next: (data) => {
+        this.sizes = data;
+        this.sizesLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching sizes:', err);
+        this.sizesError = 'تعذر تحميل الأحجام لهذا المنتج.';
+        this.sizesLoading = false;
+      },
+    });
+  }
+
+  // ✅ إغلاق المودال
+  closeModal() {
+    this.selectedItem = null;
+    this.sizes = [];
+  }
 }
