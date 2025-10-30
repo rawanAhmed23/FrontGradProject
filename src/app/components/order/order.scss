@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  font-family: 'Inter', sans-serif;
+}
+
+input, textarea {
+  border-radius: 0.75rem;
+}
+
+.btn {
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
